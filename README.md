@@ -18,6 +18,7 @@
 - **每次排序都重新取色**，从不缓存——图标可能带未读角标，也可能随系统主题变化。
 - **随时中止**：排序过程中按 <kbd>Esc</kbd>，或点托盘菜单「中止」。
 - **不抢鼠标**：默认用合成触摸指针注入，真实鼠标指针位置不会被移动（见下方「已知限制」）。
+- **一个没什么用的微恐怖控制面板**：托盘菜单「打开它」可以打开一个独立小窗口，中间一个按钮，点一下开始排序、再点一下停止；背景是缓慢明暗的暗红色调，标题和提示文字会随机切换，偶尔叠加一点诡异的组合符号。纯彩蛋，没有额外功能。
 
 ### 排序规则
 
@@ -55,6 +56,12 @@ TaskbarColorSorter.exe --sort
 
 退出码：`0` 成功 / 已有序 / 无需排序，`1` 失败，`2` 被中止。
 
+还可以跳过托盘，直接打开上面提到的控制面板小窗口：
+
+```powershell
+TaskbarColorSorter.exe --ui
+```
+
 排序 16 个图标大约 20～25 秒。这个速度是拖拽可靠性换来的，时序常量在 [src/TaskbarColorSorter/IDragDriver.cs](src/TaskbarColorSorter/IDragDriver.cs) 的 `DragTiming` 里，可以自己调快。
 
 ---
@@ -72,8 +79,9 @@ UI Automation 枚举按钮  →  截屏提取每个图标主色  →  算目标�
 
 | 文件                                                           | 职责                                                  |
 | -------------------------------------------------------------- | ----------------------------------------------------- |
-| [Program.cs](src/TaskbarColorSorter/Program.cs)                 | 入口。设 DPI 感知、单实例互斥、`--sort` 一次性模式  |
+| [Program.cs](src/TaskbarColorSorter/Program.cs)                 | 入口。设 DPI 感知、单实例互斥、`--sort` 一次性模式、`--ui` 直接打开控制面板 |
 | [TrayApp.cs](src/TaskbarColorSorter/TrayApp.cs)                 | 托盘 UI。图标是运行时画出来的彩虹直方图，不带图片资源 |
+| [SorterForm.cs](src/TaskbarColorSorter/SorterForm.cs)           | 彩蛋控制面板。一个按钮切换开始/停止排序，微恐怖风格的随机文案 + 文字恐怖谷小效果 |
 | [SortEngine.cs](src/TaskbarColorSorter/SortEngine.cs)           | 流程编排。选择排序 + 每步验证 + 失败重试              |
 | [TaskbarScanner.cs](src/TaskbarColorSorter/TaskbarScanner.cs)   | UIA 枚举任务栏按钮，取矩形和身份标识                  |
 | [ColorExtract.cs](src/TaskbarColorSorter/ColorExtract.cs)       | 截屏提取图标主色（算法细节见下）                      |

@@ -19,6 +19,7 @@ internal sealed class TrayApp : ApplicationContext
 
     private CancellationTokenSource? _cts;
     private bool _busy;
+    private SorterForm? _panel;
 
     public TrayApp()
     {
@@ -34,6 +35,8 @@ internal sealed class TrayApp : ApplicationContext
         menu.Items.Add(_sortItem);
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add(_abortItem);
+        menu.Items.Add(new ToolStripSeparator());
+        menu.Items.Add(new ToolStripMenuItem("打开它", null, (_, _) => ShowPanel()));
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add(new ToolStripMenuItem("退出", null, (_, _) => ExitApp()));
 
@@ -78,6 +81,18 @@ internal sealed class TrayApp : ApplicationContext
         }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
+    private void ShowPanel()
+    {
+        if (_panel is { IsDisposed: false })
+        {
+            _panel.Activate();
+            return;
+        }
+
+        _panel = new SorterForm();
+        _panel.Show();
+    }
+
     private void ShowResult(SortResult result)
     {
         var iconKind = result.Outcome switch
@@ -114,6 +129,7 @@ internal sealed class TrayApp : ApplicationContext
     private void ExitApp()
     {
         _cts?.Cancel();
+        _panel?.Close();
         _tray.Visible = false;
         _tray.Dispose();
         if (_iconHandle != IntPtr.Zero) DestroyIcon(_iconHandle);

@@ -20,6 +20,14 @@ internal static class Program
 
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
+
+        // --ui：直接打开无用控制面板，不驻留托盘，方便单独调试这个窗口。
+        if (args.Any(a => a.Equals("--ui", StringComparison.OrdinalIgnoreCase)))
+        {
+            Application.Run(new SorterForm());
+            return 0;
+        }
+
         Application.Run(new TrayApp());
         return 0;
     }
