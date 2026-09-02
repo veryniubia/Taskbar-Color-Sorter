@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>TaskbarColorSorter</RootNamespace>
+    <AssemblyName>TaskbarColorSorter</AssemblyName>
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- UIAutomationClient / UIAutomationTypes 随 WindowsDesktop.App 的 WPF 部分提供 -->
+    <UseWPF>true</UseWPF>
+
+    <Version>1.0.0</Version>
+    <Product>Taskbar Color Sorter</Product>
+    <Description>按图标主题色一键重排 Windows 任务栏</Description>
+
+    <!-- 单文件自包含发布 -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <!-- WinForms/WPF 大量依赖反射，裁剪会导致运行期崩溃，明确关闭 -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="app.manifest" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>TaskbarProbe</RootNamespace>
+    <AssemblyName>TaskbarProbe</AssemblyName>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+
+  <!-- 直接链接正式项目的算法文件，避免探测工具和正式程序各维护一份取色代码 -->
+  <ItemGroup>
+    <Compile Include="..\src\TaskbarColorSorter\ColorExtract.cs" Link="Shared\ColorExtract.cs" />
+    <Compile Include="..\src\TaskbarColorSorter\ColorSort.cs" Link="Shared\ColorSort.cs" />
+  </ItemGroup>
+
+</Project>
